@@ -16,3 +16,9 @@ SELECT s.submission_date, COUNT(h.name)
   LEFT JOIN hackers h ON h.hacker_id = s.hacker_ID
   GROUP BY s.submission_date
   ORDER BY s.submission_date ASC
+
+# counts submsisions by hacker and by date
+    SELECT submission_date, hacker_id, COUNT(hacker_id) AS mycount
+    FROM submissions 
+    GROUP BY hacker_id, submission_date
+    ORDER BY submission_date ASC, mycount DESC
