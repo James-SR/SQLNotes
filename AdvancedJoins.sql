@@ -9,3 +9,10 @@
   LEFT JOIN hackers h ON h.hacker_id = s.hacker_ID
   GROUP BY h.name,  h.hacker_ID, s.submission_date
   ORDER BY s.submission_date ASC
+
+# submissions by day
+SELECT s.submission_date, COUNT(h.name)
+  FROM submissions s
+  LEFT JOIN hackers h ON h.hacker_id = s.hacker_ID
+  GROUP BY s.submission_date
+  ORDER BY s.submission_date ASC
