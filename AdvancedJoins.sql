@@ -33,3 +33,12 @@ FROM (
     GROUP BY h.name, s.hacker_id, submission_date
             ) sub
 ORDER BY submission_date ASC, mycount DESC
+
+-- Starting simple one column at a time
+
+SELECT
+    submission_date,
+    COUNT(DISTINCT hacker_ID)
+FROM submissions
+GROUP BY submission_date
+ORDER BY submission_date
