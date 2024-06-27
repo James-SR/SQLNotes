@@ -67,3 +67,42 @@ FROM submissions s
 JOIN max_hacker mh ON mh.submission_date = s.submission_date AND Row# = 1
 GROUP BY s.submission_date, mh.hacker_id, mh.name
 ORDER BY s.submission_date
+
+-- To limit the hackers to just those who submit every day
+
+DECLARE @everyday_hackers TABLE
+    (
+        hacker_id INT,
+        submission_date DATE
+    );
+    
+DECLARE @subdate DATE;
+DECLARE @remainingdate DATE;
+
+INSERT INTO @everyday_hackers
+SELECT hacker_ID, submission_date
+FROM submissions
+WHERE submission_date LIKE '2016-03-01';
+
+SET @subdate = '2016-03-01';
+SET @remainingdate = '2016-03-01';
+
+WHILE @subdate < '2016-03-`15'
+BEGIN
+
+    SET @subdate = DATEADD(day,1,@subdate);
+    
+    INSERT INTO @everyday_hackers
+    SELECT s.hacker_ID, s.submission_date
+    FROM submissions s
+    JOIN @everyday_hackers eh ON eh.hacker_id = s.hacker_ID AND eh.submission_date
+        LIKE @remainingdate
+    WHERE s.submission_date LIKE @subdate;
+    
+    SET @remainingdate = DATEADD(day,1,@subdate);
+    
+END;
+
+SELECT * 
+FROM @everyday_hackers
+
