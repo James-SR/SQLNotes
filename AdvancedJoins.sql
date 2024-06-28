@@ -76,6 +76,12 @@ DECLARE @everyday_hackers TABLE
         submission_date DATE
     );
     
+DECLARE @count_hackers TABLE
+    (
+    hacker_id INT,
+    submission_date DATE
+    );
+
 DECLARE @subdate DATE;
 DECLARE @remainingdate DATE;
 
@@ -87,7 +93,7 @@ WHERE submission_date LIKE '2016-03-01';
 SET @subdate = '2016-03-01';
 SET @remainingdate = '2016-03-01';
 
-WHILE @subdate < '2016-03-`15'
+WHILE @subdate < '2016-03-15'
 BEGIN
 
     SET @subdate = DATEADD(day,1,@subdate);
@@ -103,6 +109,11 @@ BEGIN
     
 END;
 
-SELECT * 
+INSERT INTO @count_hackers
+SELECT COUNT(DISTINCT hacker_id), submission_date
 FROM @everyday_hackers
+GROUP BY submission_date;
+
+SELECT * 
+FROM @count_hackers;
 
