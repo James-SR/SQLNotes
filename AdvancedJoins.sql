@@ -105,7 +105,7 @@ BEGIN
         LIKE @remainingdate
     WHERE s.submission_date LIKE @subdate;
     
-    SET @remainingdate = DATEADD(day,1,@subdate);
+    SET @remainingdate = DATEADD(day,1,@remainingdate);
     
 END;
 
